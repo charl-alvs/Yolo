@@ -5,7 +5,7 @@ use std::sync::Arc;
 
 fn main() {
     // Path to the image file you want to test with
-    let image_path = "/home/friend/Desktop/Yolo/yolo-test/src/drugs-image/cheque.jpg"; // Modify this with the path to your image
+    let image_path = "src/drugs-image/drugs.jpg"; // Modify this with the path to your image
     let buf = std::fs::read(image_path).unwrap_or_else(|_| {
         eprintln!("Failed to read the image file.");
         std::process::exit(1);
@@ -44,7 +44,7 @@ fn prepare_input(buf: Vec<u8>) -> (Array<f32, IxDyn>, u32, u32) {
 
 fn run_model(input: Array<f32, IxDyn>) -> Array<f32, IxDyn> {
     let env = Arc::new(Environment::builder().with_name("YOLOv8").build().unwrap());
-    let model = SessionBuilder::new(&env).unwrap().with_model_from_file("/home/friend/Desktop/Yolo/yolo-test/src/pretrained/best.onnx").unwrap();
+    let model = SessionBuilder::new(&env).unwrap().with_model_from_file("src/pretrained/best.onnx").unwrap();
     let input_as_values = &input.as_standard_layout();
     let model_inputs = vec![Value::from_array(model.allocator(), input_as_values).unwrap()];
     let outputs = model.run(model_inputs).unwrap();
