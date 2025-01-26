@@ -1,0 +1,15 @@
+use onnxruntime::{ environment::Environment, GraphOptimizationLevel, LoggingLevel };
+use std::error::Error;
+
+// use image::{ ImageReader, DynamicImage, GenericImageView, imageops::resize };
+fn main() -> Result<(), Box<dyn Error>> {
+    
+    let env = Environment::builder().with_name("onnx").with_log_level(LoggingLevel::Verbose).build()?;
+    let session = env
+    .new_session_builder()?
+    .with_optimization_level(GraphOptimizationLevel::Basic)?
+    .with_number_threads(1)?
+    .with_model_from_file("src/pretrained/yolov8n.onnx").expect("Failed to load model");
+
+    Ok(())
+}
